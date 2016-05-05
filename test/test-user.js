@@ -26,6 +26,17 @@ describe('User endpoints', function() {
                 .send(user);
         return Promise.all([promiseA]);
     });
+    describe('/hello', function() {
+      it('should return hello world', function () {
+        return chai.request(app)
+          .get('/hello')
+          .then(function(res) {
+            res.should.have.status(200);
+            res.body.message.should.equal('Hello World');
+          })
+      })
+    });
+
     describe('/users', function() {
         beforeEach(function() {
             this.pattern = new UrlPattern('/users');

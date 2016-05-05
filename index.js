@@ -330,6 +330,10 @@ app.get('/messages/:messageId', function(req, res) {
         });
 });
 
+app.get('/hello', function(req, res) {
+  res.json({message: 'Hello World'});
+});
+
 var databaseUri = global.databaseUri || 'mongodb://localhost/sup';
 mongoose.connect(databaseUri).then(function() {
     app.listen(8080, function() {
