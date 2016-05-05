@@ -32,20 +32,7 @@ describe('User endpoints', function() {
         });
 
         describe('GET', function() {
-            it('should return an empty list of users initially', function() {
-                return chai.request(app)
-                    .get(this.pattern.stringify())
-                    .auth('joe', 'abc123')
-                    .then(function(res) {
-                        res.should.have.status(200);
-                        res.type.should.equal('application/json');
-                        res.charset.should.equal('utf-8');
-                        res.body.should.be.an('array');
-                        res.body.length.should.equal(0);
-                    });
-            });
-
-            it('should return a list of users', function() {
+             it('should return a list of users', function() {
                 var user = {
                     username: 'joe',
                     password: 'bye'
@@ -89,7 +76,7 @@ describe('User endpoints', function() {
                         res.charset.should.equal('utf-8');
                         res.should.have.header('location');
                         res.body.should.be.an('object');
-                        res.body.should.be.empty;
+                        res.body.username.should.be.equal('joe');
 
                         return chai.request(app)
                             .get(res.headers.location);
