@@ -193,7 +193,9 @@ app.put('/users/:userId', jsonParser, function(req, res) {
     });
 });
 
-app.delete('/users/:userId', function(req, res) {
+app.delete('/users/:userId', passport.authenticate('basic', {
+    session: false
+}), function(req, res) {
     User.findOneAndRemove({
         _id: req.params.userId
     }).then(function(user) {
