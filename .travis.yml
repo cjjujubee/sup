@@ -1,13 +1,14 @@
 language: node_js
-
 node_js: node
-
 env:
- - CXX=g++-4.8
-
+- CXX=g++-4.8
 services:
 - mongodb
-
+deploy:
+  provider: heroku
+  app: serene-anchorage-63795
+  api_key:
+    secure: RfyS27zDC3ZNfPDpD0mwximnlzH03kz7KgYNHtdZhrC3Cwg5xyFPWu8Q3NKf2XYILdGKp+wUS5FQbA9zt/QL13PU2HKQvoRn9qN+XqR2srYlsLhjtVWn3dyCGlyKdIO0uKiboikCNZ8qi4ipEjJ4wPFGAZTVrVqWFzuYW5TTC6q3MIHybop6V2T/iGgjk0n7C4Rlj4gU35hoJjHCEsydi75Hlh6l4c7P6nuT/w8W7XfoiPLweveFt9ee3Kd1SRyFXSLSxMFFF7NAnDFUyxaVEqQ4aOESfX3rmntlBbaZMzYnqPWhLBHNlpU0T8/9lMm53AoQ1Dug2OZql/b/35NOSs+T0vm3dKPaDlcrHuehGOjp9Pdm1UxuHAr1bcU7DFUhJQbM4+rzQwuqA7ByvE2GCsa42HfG19mDcYdA2M2IthqRoAHqnhOmJLabWArcTZxarGJCC7NJlHm3b4rbJYc6M/1s8r+2xjq+xLCdkQSAIKP8z7yzolwc3NulfLDhDQLNWb1iO/zEJztfMCUOypBhDP4tIVm8WkNmlwsGkFFkuScYChB0BB+IQVx3bpPWHAH99XDmUzmGc0HszI1ESGfM6Uge9ADOWQGRWsneO33ZcF96zyA1LBSh8obPfXtXOR9wu7uingLB9eyDxHhM0X6BFwFFd07puT/ZcsL0FeBTCAw=
 addons:
   apt:
     sources:
