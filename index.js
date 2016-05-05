@@ -44,21 +44,11 @@ var strategy = new BasicStrategy(function(username, password, callback) {
 
 passport.use(strategy);
 
-app.use(passport.initialize());
-
 var jsonParser = bodyParser.json();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
 app.use(passport.initialize());
-
-app.get('/hidden', passport.authenticate('basic', {
-    session: false
-}), function(req, res) {
-    res.json({
-        message: 'Luke...I am your father'
-    });
-});
 
 app.get('/users', passport.authenticate('basic', {
     session: false

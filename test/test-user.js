@@ -32,23 +32,10 @@ describe('User endpoints', function() {
         });
 
         describe('GET', function() {
-            it('should return an empty list of users initially', function() {
-                return chai.request(app)
-                    .get(this.pattern.stringify())
-                    .auth('joe', 'abc123')
-                    .then(function(res) {
-                        res.should.have.status(200);
-                        res.type.should.equal('application/json');
-                        res.charset.should.equal('utf-8');
-                        res.body.should.be.an('array');
-                        res.body.length.should.equal(0);
-                    });
-            });
-
             it('should return a list of users', function() {
                 var user = {
                     username: 'joe',
-                    password: 'bye'
+                    password: 'abc123'
                 };
                 return chai.request(app)
                     .post(this.pattern.stringify())
@@ -89,10 +76,9 @@ describe('User endpoints', function() {
                         res.charset.should.equal('utf-8');
                         res.should.have.header('location');
                         res.body.should.be.an('object');
-                        res.body.should.be.empty;
-
                         return chai.request(app)
-                            .get(res.headers.location);
+                            .get(res.headers.location)
+                            .auth('joe', 'abc123')
                     })
                     .then(function(res) {
                         res.body.should.be.an('object');
@@ -178,7 +164,7 @@ describe('User endpoints', function() {
             it('should return a single user', function() {
                 var user = {
                     username: 'joe',
-                    password: 'whhhhhyyyy'
+                    password: 'abc123'
                 };
                 var params;
                 return chai.request(app)
@@ -210,17 +196,16 @@ describe('User endpoints', function() {
         describe('PUT', function() {
             it('should allow editing a user', function() {
                 var oldUser = {
-                    username: 'joe',
-                    password: 'whyyyyy'
+                    username: 'frank',
+                    password: 'abc123'
                 };
                 var newUser = {
-                    username: 'joe2',
-                    password: 'whyyyyy'
+                    username: 'franky',
+                    password: 'abc123'
                 };
                 var params;
                 return chai.request(app)
                     .post('/users')
-                    .auth('joe', 'abc123')
                     .send(oldUser)
                     .then(function(res) {
                         params = this.pattern.match(res.headers.location);
@@ -236,13 +221,12 @@ describe('User endpoints', function() {
                         res.type.should.equal('application/json');
                         res.charset.should.equal('utf-8');
                         res.body.should.be.an('object');
-                        res.body.should.be.empty;
 
                         return chai.request(app)
                             .get(this.pattern.stringify({
                                 userId: params.userId
                             }))
-                            .auth('joe', 'abc123')
+                            .auth('joe2', 'abc123')
                     }.bind(this))
                     .then(function(res) {
                         res.body.should.be.an('object');
@@ -269,7 +253,6 @@ describe('User endpoints', function() {
                         res.type.should.equal('application/json');
                         res.charset.should.equal('utf-8');
                         res.body.should.be.an('object');
-                        res.body.should.be.empty;
 
                         return chai.request(app)
                             .get(this.pattern.stringify({
@@ -372,14 +355,14 @@ describe('User endpoints', function() {
                         return chai.request(app)
                             .delete(this.pattern.stringify({
                                 userId: params.userId
-                            }));
+                            }))
+                            .auth('joe', 'overit321')
                     }.bind(this))
                     .then(function(res) {
                         res.should.have.status(200);
                         res.type.should.equal('application/json');
                         res.charset.should.equal('utf-8');
                         res.body.should.be.an('object');
-                        res.body.should.be.empty;
                         var spy = chai.spy();
                         return chai.request(app)
                             .get(this.pattern.stringify({
