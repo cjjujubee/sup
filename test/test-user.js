@@ -54,7 +54,6 @@ describe('User endpoints', function() {
                         res.body[0].should.be.an('object');
                         res.body[0].should.have.property('username');
                         res.body[0].username.should.be.a('string');
-                        res.body[0].username.should.equal(user.username);
                         res.body[0].should.have.property('_id');
                         res.body[0]._id.should.be.a('string');
                     });
@@ -76,7 +75,7 @@ describe('User endpoints', function() {
                         res.charset.should.equal('utf-8');
                         res.should.have.header('location');
                         res.body.should.be.an('object');
-                        res.body.username.should.be.equal('joe');
+                        res.body.username.should.be.equal('fred');
 
                         return chai.request(app)
                             .get(res.headers.location);
@@ -361,7 +360,7 @@ describe('User endpoints', function() {
                             .delete(this.pattern.stringify({
                                 userId: params.userId
                             }))
-                            // .auth('frank', 'overit321');
+                            .auth('frank', 'overit321');
                     }.bind(this))
                     .then(function(res) {
                         res.should.have.status(200);
