@@ -58,7 +58,9 @@ app.get('/hidden', passport.authenticate('basic', {
     });
 });
 
-app.get('/users', function(req, res) {
+app.get('/users', passport.authenticate('basic', {
+    session: false
+}), function(req, res) {
     User.find({}).then(function(users) {
         res.json(users);
     });

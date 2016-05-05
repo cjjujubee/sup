@@ -43,7 +43,7 @@ describe('User endpoints', function() {
                     .then(function(res) {
                         return chai.request(app)
                             .get(this.pattern.stringify())
-                            .auth('joe', 'abc123')
+                            .auth('billy', 'bye')
                     }.bind(this))
                     .then(function(res) {
                         res.should.have.status(200);
