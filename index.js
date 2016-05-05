@@ -50,9 +50,15 @@ app.use(bodyParser.urlencoded({ extended: true}));
 
 app.use(passport.initialize());
 
-app.get('/users', passport.authenticate('basic', {
+app.get('/hidden', passport.authenticate('basic', {
     session: false
 }), function(req, res) {
+    res.json({
+        message: 'Luke...I am your father'
+    });
+});
+
+app.get('/users', function(req, res) {
     User.find({}).then(function(users) {
         res.json(users);
     });
@@ -134,9 +140,7 @@ app.post('/users', function(req, res) {
     });
 });
 
-app.get('/users/:userId', passport.authenticate('basic', {
-    session: false
-}), function(req, res) {
+app.get('/users/:userId', function(req, res) {
     User.findOne({
         _id: req.params.userId
     }).then(function(user) {
@@ -210,9 +214,7 @@ app.delete('/users/:userId', passport.authenticate('basic', {
 
 });
 
-app.get('/messages', passport.authenticate('basic', {
-    session: false
-}), function(req, res) {
+app.get('/messages', function(req, res) {
     var filter = {};
     if ('to' in req.query) {
         filter.to = req.query.to;
@@ -305,9 +307,7 @@ app.post('/messages', jsonParser, function(req, res) {
     });
 });
 
-app.get('/messages/:messageId', passport.authenticate('basic', {
-    session: false
-}), function(req, res) {
+app.get('/messages/:messageId', function(req, res) {
     Message.findOne({
             _id: req.params.messageId
         })

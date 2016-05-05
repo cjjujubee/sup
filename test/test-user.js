@@ -32,10 +32,10 @@ describe('User endpoints', function() {
         });
 
         describe('GET', function() {
-            it('should return a list of users', function() {
+             it('should return a list of users', function() {
                 var user = {
-                    username: 'joe',
-                    password: 'abc123'
+                    username: 'billy',
+                    password: 'bye'
                 };
                 return chai.request(app)
                     .post(this.pattern.stringify())
@@ -54,7 +54,6 @@ describe('User endpoints', function() {
                         res.body[0].should.be.an('object');
                         res.body[0].should.have.property('username');
                         res.body[0].username.should.be.a('string');
-                        res.body[0].username.should.equal(user.username);
                         res.body[0].should.have.property('_id');
                         res.body[0]._id.should.be.a('string');
                     });
@@ -64,7 +63,7 @@ describe('User endpoints', function() {
         describe('POST', function() {
             it('should allow adding a user', function() {
                 var user = {
-                    username: 'joe',
+                    username: 'fred',
                     password: 'why123'
                 };
                 return chai.request(app)
@@ -76,6 +75,7 @@ describe('User endpoints', function() {
                         res.charset.should.equal('utf-8');
                         res.should.have.header('location');
                         res.body.should.be.an('object');
+                        res.body.username.should.be.equal('fred');
                         return chai.request(app)
                             .get(res.headers.location)
                             .auth('joe', 'abc123')
@@ -163,8 +163,8 @@ describe('User endpoints', function() {
 
             it('should return a single user', function() {
                 var user = {
-                    username: 'joe',
-                    password: 'abc123'
+                    username: 'george',
+                    password: 'whhhhhyyyy'
                 };
                 var params;
                 return chai.request(app)
@@ -176,7 +176,7 @@ describe('User endpoints', function() {
                             .get(this.pattern.stringify({
                                 userId: params.userId
                             }))
-                            .auth('joe', 'abc123')
+                            .auth('george', 'whhhhhyyyy')
                     }.bind(this))
                     .then(function(res) {
                         res.should.have.status(200);
@@ -196,12 +196,12 @@ describe('User endpoints', function() {
         describe('PUT', function() {
             it('should allow editing a user', function() {
                 var oldUser = {
-                    username: 'frank',
-                    password: 'abc123'
+                    username: 'harry',
+                    password: 'whyyyyy'
                 };
                 var newUser = {
-                    username: 'franky',
-                    password: 'abc123'
+                    username: 'harry2',
+                    password: 'whyyyyy'
                 };
                 var params;
                 return chai.request(app)
@@ -213,7 +213,7 @@ describe('User endpoints', function() {
                             .put(this.pattern.stringify({
                                 userId: params.userId
                             }))
-                            .auth('joe', 'abc123')
+                            .auth('harry', 'whyyyyy')
                             .send(newUser);
                     }.bind(this))
                     .then(function(res) {
@@ -226,7 +226,7 @@ describe('User endpoints', function() {
                             .get(this.pattern.stringify({
                                 userId: params.userId
                             }))
-                            .auth('joe2', 'abc123')
+                            .auth('harry2', 'whyyyyy')
                     }.bind(this))
                     .then(function(res) {
                         res.body.should.be.an('object');
@@ -241,7 +241,7 @@ describe('User endpoints', function() {
             it('should create a user if they don\'t exist', function() {
                 var user = {
                     _id: '000000000000000000000000',
-                    username: 'joe'
+                    username: 'maude'
                 };
                 return chai.request(app)
                     .put(this.pattern.stringify({
@@ -327,6 +327,7 @@ describe('User endpoints', function() {
                     .delete(this.pattern.stringify({
                         userId: '000000000000000000000000'
                     }))
+                    .auth('joe', 'abc123')
                     .then(spy)
                     .then(function() {
                         spy.should.not.have.been.called();
@@ -343,7 +344,7 @@ describe('User endpoints', function() {
             });
             it('should delete a user', function() {
                 var user = {
-                    username: 'joe',
+                    username: 'frank',
                     password: 'overit321'
                 };
                 var params;
@@ -356,7 +357,7 @@ describe('User endpoints', function() {
                             .delete(this.pattern.stringify({
                                 userId: params.userId
                             }))
-                            .auth('joe', 'overit321')
+                            .auth('frank', 'overit321');
                     }.bind(this))
                     .then(function(res) {
                         res.should.have.status(200);
